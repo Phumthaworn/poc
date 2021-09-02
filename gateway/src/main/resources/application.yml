@@ -1,0 +1,27 @@
+server:
+  port: 9003
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:9001/eureka
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # use netflix eureka discovery service
+      routes:
+        - id : eureka-client-one
+          uri: lb://eureka-client-one
+          predicates:
+            - Path=/eureka-client-one/**
+        - id : eureka-client-two
+          uri: lb://eureka-client-two
+          predicates:
+            - Path=/eureka-client-two/**
